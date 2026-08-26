@@ -18,7 +18,7 @@ function App() {
         <div>
           <h1>Get started</h1>
           <p>
-            Testing... Testing... Hello!
+            Testing...  Testing...  Hello!
           </p>
         </div>
         <button
