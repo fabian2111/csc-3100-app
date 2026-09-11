@@ -21,16 +21,43 @@ function MyApp() {
       return promise;
     }
 
+    function deleteUser(person) {
+      const promise = fetch(`http://localhost:8000/users/${person.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      return promise;
+    }
+
     function removeOneCharacter(index) {
+        const userToDelete = characters[index];
         const updated = characters.filter((character, i) => {
             return i !== index;
         })
-        setCharacters(updated)
+
+        deleteUser(userToDelete)
+        .then((res) => {
+          if(res.status === 204){
+            setCharacters(updated);
+          } else if (res.status === 404){
+            console.log("Cannot find user");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
     function updateList(person){
         postUser(person)
-        .then(() => setCharacters([...characters, person]))
+        .then((res) => {
+          if(res.status === 201){
+           res.json()
+           .then((new_user) => setCharacters([...characters, new_user]))
+          }
+        })
         .catch((error) => {
           console.log(error);
         });

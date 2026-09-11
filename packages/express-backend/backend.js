@@ -38,6 +38,15 @@ const users = {
   ],
 };
 
+function addIdToUser(user) {
+  const new_user = {
+    id: `${Math.random()}`,
+    name: user.name,
+    job: user.job
+  };
+  return new_user
+}
+
 const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
 };
@@ -46,8 +55,9 @@ const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
 const addUser = (user) => {
-  users["users_list"].push(user);
-  return user;
+  const new_user = addIdToUser(user);
+  users["users_list"].push(new_user);
+  return new_user;
 };
 
 const removeUser = (id) =>
@@ -89,18 +99,19 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+  const new_user = addUser(userToAdd);
+  res.status(201).send(new_user);
 });
 
 app.delete("/users/:id", (req, res) => {
   const id = req.params.id;
   let result = findUserById(id);
+  console.log(id);
   if(result === undefined){
     res.status(404).send("Cannot find user");
   } else {
     users["users_list"] = removeUser(id);
-    res.send(200);
+    res.status(204).send();
   }
 });
 
