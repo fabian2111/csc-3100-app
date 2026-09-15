@@ -106,7 +106,6 @@ app.post("/users", (req, res) => {
 app.delete("/users/:id", (req, res) => {
   const id = req.params.id;
   let result = findUserById(id);
-  console.log(id);
   if(result === undefined){
     res.status(404).send("Cannot find user");
   } else {
