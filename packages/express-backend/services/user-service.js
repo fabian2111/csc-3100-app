@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import userModel from "../models/user.js";
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 
-// mongoose.set("debug", true);
-// dotenv.config();
+mongoose.set("debug", true);
+dotenv.config();
 
 function getMongoURI(dbname) {
   // Pull the single connection string from the environment
@@ -28,10 +28,10 @@ function getMongoURI(dbname) {
 }
 
 // Mongoose 6+ does not need useNewUrlParser or useUnifiedTopology
-// mongoose
-//   .connect(getMongoURI("users"))
-//   .then(() => console.log("Successfully connected to MongoDB"))
-//   .catch((error) => console.log("Connection Error:", error));
+mongoose
+  .connect(getMongoURI("users"))
+  .then(() => console.log("Successfully connected to MongoDB"))
+  .catch((error) => console.log("Connection Error:", error));
 
 export function addUser(user) {
   const userToAdd = new userModel(user);
